@@ -1,0 +1,547 @@
+/*document.querySelector(".back").addEventListener("mouseover", function() {
+    console.log("klfjl")
+    var att = document.createAttribute("style").value = "backgroundcolor : grey";
+    //this.setAttributeNode(att)
+    this.style.backgroundColor = "grey";
+
+})
+document.querySelector(".back").addEventListener("mouseout", function() {
+    console.log("klfjl")
+    var att = document.createAttribute("style").value = "backgroundcolor : grey";
+    //this.setAttributeNode(att)
+    this.removeAttribute("style")
+    //this.style.backgroundColor = "grey";
+
+})*/
+
+var obj = {
+    "id": "123",
+    "list": [{
+        "id" : "789",
+        "name": "Electronics",
+        "list": [
+            {
+                "id": "271",
+                "name": "mobiles",
+                "list": [
+                    {
+                        "id" : "777",
+                        "name" : "nokia",
+                        "list" : []
+                    },
+                    {
+                        "id" : "790",
+                        "name" : "samsung",
+                        "list" : []
+                    }
+                ]
+            },
+            {
+                "id": "321",
+                "name": "washing machine",
+                "list": [
+                    {
+                        "id" : "400",
+                        "name" : "samsung",
+                        "list" : []
+                    },
+                    {
+                        "id" : "7719",
+                        "name" : "whirpool",
+                        "list" : []
+                    }
+                ]
+            }
+        ]
+    },
+        {
+            "id" : "758",
+            "name": "clothes",
+            "list": [
+                {
+                    "id": "111",
+                    "name": "jeans",
+                    "list": [
+                        {
+                            "id" : "7833",
+                            "name" : "cotton",
+                            "list" : []
+                        },
+                        {
+                            "id" : "77919",
+                            "name" : "silk",
+                            "list" : []
+                        },
+                        {
+                            "id" : "780",
+                            "name": "Electronics",
+                            "list": [
+                                {
+                                    "id": "276",
+                                    "name": "mobiles",
+                                    "list": [
+                                        {
+                                            "id" : "723",
+                                            "name" : "nokia",
+                                            "list" : [
+                                                {
+                                                    "id" : "434534",
+                                                    "name" : "touch",
+                                                    "list" : [
+                                                        {
+                                                            "id" : "87653",
+                                                            "name" : "full touch",
+                                                            "list" : [
+                                                                {
+                                                                    "id" : "77894",
+                                                                    "name" : "nokia",
+                                                                    "list": []
+                                                                },
+                                                                {
+                                                                    "id" : "798790",
+                                                                    "name" : "samsung",
+                                                                    "list" : []
+                                                                }
+                                                            ]
+                                                        }
+                                                    ]
+                                                },
+                                                {
+                                                    "id" : "468753",
+                                                    "name" : "keypad",
+                                                    "list" : []
+                                                }
+                                            ]
+                                        },
+                                        {
+                                            "id" : "792234",
+                                            "name" : "samsung",
+                                            "list" : []
+                                        }
+                                    ]
+                                },
+                                {
+                                    "id": "32791",
+                                    "name": "washing machine",
+                                    "list": [
+                                        {
+                                            "id" : "400",
+                                            "name" : "samsung",
+                                            "list" : []
+                                        },
+                                        {
+                                            "id" : "7719",
+                                            "name" : "whirpool",
+                                            "list" : []
+                                        },{
+                                            "id" : "77195686",
+                                            "name" : "Lg",
+                                            "list" : []
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "id": "8258",
+                    "name": "shirts",
+                    "list": [
+                        {
+                            "id" : "40000",
+                            "name" : "T shirts",
+                            "list" : []
+                        },
+                        {
+                            "id" : "77197",
+                            "name" : "Chinease",
+                            "list" : []
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "id" : "478",
+            "name": "grocery",
+            "list": [
+                {
+                    "id": "937",
+                    "name": "bakery",
+                    "list": []
+                },
+                {
+                    "id": "478686",
+                    "name": "meat",
+                    "list": []
+                }
+            ]
+        }]
+}
+
+var oStates  = {
+
+}
+
+//obj is your tree data
+//states (expanded/collapsed) are coming from oStates
+//We need to prepare oStates at the start of the application because the data is dynamic (key is id, value is flag for expanded)
+//By default the nodes are collapsed
+//write a render method
+
+// var obj = JSON.parse(json)
+
+/*
+var oTextEl = document.createElement('ul');
+document.getElementsByClassName('side')[0].appendChild(oTextEl);
+
+   var oListEl = document.createElement('li');
+   oTextEl.appendChild(oListEl);
+   var liEl = document.createElement('a');
+   oListEl.appendChild(liEl);
+   liEl.innerHTML = "hello";
+   liEl.target = "target";
+   liEl.hreflang = "elle.html"
+   liEl.href = "gogla.htm"
+
+*/
+console.log("dfh")
+var map = {}
+var uEl = document.createElement('ul')
+document.getElementsByClassName("side")[0].appendChild(uEl);
+
+fullDis = function() {
+    obj.list.forEach(function (item) {
+        var liEl = document.createElement('li');
+        map[item.id] = false;
+
+        uEl.appendChild(liEl);
+        var aEl = document.createElement('a');
+        var att = document.createAttribute('data-id')
+        att.value = item.id;
+        aEl.setAttributeNode(att);
+        aEl.addEventListener("click", handleClick.bind(item));
+        var a1 = document.createElement('a');
+
+        var a2 = document.createElement('a')
+        a1.innerHTML = "+";
+        a2.innerHTML = "-";
+        a1.href = "#";
+        a2.href = "#";
+        a1.addEventListener("click", add.bind(item))
+        liEl.appendChild(aEl);
+        liEl.appendChild(a1);
+        liEl.appendChild(a2);
+
+        var ulEl = document.createElement("ul");
+        ulEl.setAttribute("id", item.id);
+        ulEl.style.display = "none";
+        liEl.appendChild(ulEl)
+        item.list.forEach(function (item) {
+            map[item.id] = false;
+            var liEl = document.createElement('li');
+            var aEl = document.createElement('a');
+            var a1 = document.createElement('a');
+
+            var a2 = document.createElement('a')
+            a1.innerHTML = "+";
+            a2.innerHTML = "-";
+            // var att = document.createAttribute('data-id')
+            //att.value = item.id;
+            //aEl.setAttributeNode(att);
+            aEl.addEventListener("click", handleClick.bind(item));
+            aEl.target = "target";
+            aEl.innerHTML = item.name;
+            aEl.href = item.name + ".html";
+            liEl.appendChild(aEl);
+            liEl.appendChild(a1);
+            liEl.appendChild(a2);
+            ulEl.appendChild(liEl);
+
+            var ul2El = document.createElement("ul")
+            ul2El.setAttribute("id", item.id)
+            ul2El.style.display = "none";
+            liEl.appendChild(ul2El)
+            item.list.forEach(function (item) {
+                map[item.ideal] = false;
+                var liEl = document.createElement('li');
+                var aEl = document.createElement('a');
+                // var att = document.createAttribute('data-id')
+                //att.value = item.id;
+                //aEl.setAttributeNode(att);
+                aEl.addEventListener("click", handleClick.bind(item));
+                aEl.target = "target";
+                aEl.innerHTML = item.name;
+                aEl.href = item.name + ".html";
+                var a1 = document.createElement('a');
+
+                var a2 = document.createElement('a')
+                a1.innerHTML = "+";
+                a2.innerHTML = "-";
+                liEl.appendChild(aEl);
+                liEl.appendChild(a1);
+                liEl.appendChild(a2);
+                //liEl.innerHTML = item.name;
+                ul2El.appendChild(liEl)
+                console.log(item.list != undefined)
+
+
+                /*  var ul3El =  document.createElement("ul")
+                  ul3El.setAttribute("id",item.id);
+                  ul3El.style.display = "none";
+                  liEl.appendChild(ul3El)*/
+
+                var pliEl = liEl;
+                if (item.list != undefined) {
+
+
+                    //console.log(item.id)
+                    res(item, pliEl);
+
+
+                    /*alert("kjfdl")
+                    var ulEl = document.createElement('ul')
+                    ulEl.setAttribute("id",item.id);
+                    ulEl.style.display = "none";
+                    pliEl.appendChild(ulEl)
+                    item.list.forEach(function (item) {
+                        console.log("no emtory")
+                        var liEl = document.createElement('li');
+                        var aEl = document.createElement('a');
+                        // var att = document.createAttribute('data-id')
+                        //att.value = item.id;
+                        //aEl.setAttributeNode(att);
+                        aEl.addEventListener("click",handleClick.bind(item));
+                        aEl.target = "target";
+                        aEl.innerHTML = item.name;
+                        aEl.href = item.name+".html";
+                        liEl.appendChild(aEl);
+                        ul3El.appendChild(liEl)
+                        pliEl = liEl;
+                    })
+                    item = item.list;*/
+                }
+            })
+            //liEl.innerHTML = item.name;
+        })
+        aEl.target = "target";
+        aEl.href = item.name + ".html";
+        aEl.innerHTML = item.name;
+
+    })
+}
+fullDis()
+function findObj(obj, id, o) {
+    console.log(obj)
+    if(obj.id == id) {
+        obj.list.push(o)
+        return
+    }
+
+    for(i of obj.list) {
+
+    }
+
+
+}
+function add() {
+
+    var o = {
+        id : prompt("enter id "),
+        name : prompt("enter name"),
+        list : []
+    }
+
+    console.log(o)
+
+    console.log(this.id)
+    var targetObj = findObj(obj,this.id,o);
+
+    console.log(targetObj)
+
+    targetObj.list.push( o)
+    console.log(obj)
+    fullDis()
+
+}
+
+function res(item, pliEl) {
+    /*console.log(item.id)
+    console.log(item.name)
+    console.log(item.list)
+*/
+
+    var ulEl = document.createElement('ul')
+    ulEl.setAttribute("id",item.id);
+    ulEl.style.display = "none";
+    pliEl.appendChild(ulEl)
+    item.list.forEach(function (item) {
+        map[item.id] = false;
+        var liEl = document.createElement('li')
+        var aEl = document.createElement('a')
+        aEl.addEventListener('click',handleClick.bind(item));
+        aEl.target = 'target';
+        aEl.innerHTML = item.name;
+        aEl.href = item.name+".html";
+        var a1 = document.createElement('a');
+
+        var a2 = document.createElement('a')
+        a1.innerHTML = "+";
+        a1.href = "#";
+        a2.href = "#";
+        a2.innerHTML = "-";
+        liEl.appendChild(a1);
+        liEl.appendChild(a2);
+        liEl.appendChild(aEl);
+        ulEl.appendChild(liEl)
+        if(item.list != undefined)
+            res(item, liEl)
+        //pliEl = liEl;
+    })
+}
+function handleClick(evt) {
+
+
+
+
+
+
+
+
+    var ulEl = document.getElementById(this.id)
+
+    if (ulEl.style.display === "none") {
+        map[this.id] = true;
+        ulEl.style.display = "block";
+    } else {
+        map[this.id] = false
+        ulEl.style.display = "none";
+    }
+
+    console.log(map)
+
+}
+
+/*map["87653"] = true
+map["321"] = true*/
+/*var e = document.getElementById('87653');
+console.log(e)
+if(e.nodeName.toLowerCase() == 'ul')
+    e.style.display = "block"
+while(e.nodeName.toLowerCase() != "div") {
+     var el = e.parentNode;
+     if(el.nodeName.toLowerCase() == "ul")
+         el.style.display = "block";
+     e = el;
+}*/
+//console.log(JSON.stringify(map))
+render()
+function render() {
+    for (var i in map) {
+        if(map[i] == true){
+            console.log(i)
+            var e = document.getElementById(i);
+            console.log(e)
+            if(e.nodeName.toLowerCase() == 'ul')
+                e.style.display = "block"
+            while(e.nodeName.toLowerCase() != "div") {
+                var el = e.parentNode;
+                if(el.nodeName.toLowerCase() == "ul")
+                    el.style.display = "block";
+                e = el;
+            }
+        }
+    }
+}
+console.log(map)
+
+var getObject = function(id, obj) {
+    for(p of obj.list)
+        if(p.id == id)
+            return p
+}/*
+
+
+var text = "<ul>";
+var oTextEl = document.createElement('ul');
+document.getElementsByClassName('side')[0].appendChild(oTextEl);
+
+obj.list.forEach(function (item) {
+    var oListEl = document.createElement('li');
+    oTextEl.appendChild(oListEl);
+    oListEl.classList.add("myListElement");
+    oListEl.addEventListener('click', handleClick.bind(item));
+    text = text + "<li data-id='' class='" + item.name + "'><a target='target' href='" + item.name + ".html'>" + item.name + "</a><ul id='" + item.name + "'>";
+    item.list.forEach(function (item) {
+        text = text + "<li>" + item.name + "</li>";
+    })
+
+
+    text = text + "</ul>" + "</li>";
+})
+
+
+console.log(text)
+document.querySelector(".side").innerHTML = text
+console.log(obj.list)
+var p = null;
+
+function handleClick(event){
+    //this equals item
+    var x = document.getElementById("Electronics");
+
+    if (x.style.display === "none") {
+        x.style.display = "block";
+    } else {
+        x.style.display = "none";
+    }
+    p = x;
+}
+*/
+
+/*
+document.querySelector(".Electronics").addEventListener("click", function(evt){
+
+        var oEl = evt;
+        var sId = oEl.getPropertyByName("data-id"); //123
+
+
+
+})
+
+
+
+document.querySelector(".clothes").addEventListener("click", function(){
+
+
+
+    var x = document.getElementById("clothes");
+
+    if (x.style.display === "none") {
+        x.style.display = "block";
+    } else {
+        x.style.display = "none";
+    }
+    p = x;
+})
+
+
+document.querySelector(".grocery").addEventListener("click", function(){
+
+
+    var x = document.getElementById("grocery");
+
+    if (x.style.display === "none") {
+        x.style.display = "block";
+    } else {
+        x.style.display = "none";
+    }
+    p = x;
+})
+
+obj.list.forEach(function(item) {
+    document.getElementById(item.name).style.display = "none"
+})
+
+*/
